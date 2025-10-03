@@ -1,0 +1,8 @@
+# Partner institutions for homepage display
+partners:
+  - name: worldbank
+    logo: /assets/img/partners/worldbank.png
+    display_name: World Bank Group
+    url: https://www.worldbank.org/
+    
+
