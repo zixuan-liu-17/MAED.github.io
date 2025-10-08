@@ -1,6 +1,21 @@
-- abstract: "Retiring coal plants as part of a decarbonization strategy has started to become a reality in the last five years and is reflected in the least-cost plans of many countries. However, major issues go beyond the scope of such planning, including commercial contracts, markets and asset stranding. This paper proposes a new model formulation that endogenously calculates stranded assets taking into consideration commercial and market issues. It can be used to develop insights into economic and financial issues surrounding stranded costs of coal retirement. An illustrative example around the existing 209 GW coal fleet, including an aging part of the coal fleet of 100 GW, in India is used to show how the model can be implemented with relative ease. A second case study is constructed for the Philippines, which has a much younger and uniform coal fleet. Comparing and contrasting the two case studies is valuable for understanding the critical drivers of stranded costs."
-  authors: 'Suski A., Hong L.,Chattopaghyay D.'
-  journal: Energy for Sustainable Development
-  title: "Modeling coal plant stranded costs for decarbonization pathway analyses"
-  url: https://www.sciencedirect.com/science/article/abs/pii/S0973082622002022
-  year: "2022"
+ 
+- title: "The role of hydropower in meeting Turkey’s electric energy demand"
+  authors: "Yuksek, O., Komurcu, M. I., Yuksel, I., & Kaygusuz, K."
+  year: "2006"
+  journal: "Energy Policy, 34, 3093–3103"
+  url: "https://www.sciencedirect.com/science/article/pii/S0301421505001618"
+  abstract: "The inherent technical, economic and environmental benefits of hydroelectric power make it an important contributor to the future world energy mix, particularly in developing countries. Turkey, with its great and intensifying need for power and water supplies, has abundant hydropower potential. This paper discusses policies to meet Turkey's growing electricity demand, emphasizing hydropower—especially small hydropower—as a key renewable energy source. Two case studies not included in prior assessments are presented, revealing Turkey's small hydro potential as a vital energy source, especially in the Eastern Black Sea Region. The analysis predicts that Turkey's hydroelectric potential could meet 33–46% of its electricity demand by 2020 and can be developed economically."
+
+- title: "Sustainable development of the Belgrade energy system"
+  authors: "Jovanovic, M., Afgan, N., Radovanovic, P., & Stevanovic, V."
+  year: "2009"
+  journal: "Energy, 34(5), 532–539"
+  url: "https://www.sciencedirect.com/science/article/pii/S0360544208000431"
+  abstract: "Belgrade, as a major cultural, scientific, administrative, and economic center, represents a significant energy consumer across all sectors. Using the MAED model, this study forecasts long-term energy demand across households, industry, and transport sectors to 2020. Several sustainable development scenarios are analyzed for different time periods, evaluating their sustainability using multi-criteria analysis based on economic, social, and environmental indices. The results offer decision-making insights for achieving sustainable energy development in urban systems."
+
+- title: "Analysis of the Syrian long-term energy and electricity demand projection using the end-use methodology"
+  authors: "Hainoun, A., Seif-Eldin, M. K., & Almoustafa, S."
+  year: "2006"
+  journal: "Energy Policy, 34(14), 1958–1970"
+  url: "https://www.sciencedirect.com/science/article/pii/S030142150500025X"
+  abstract: "This study presents a comprehensive long-term projection of Syrian energy and electricity demand for 1999–2030 using the IAEA's MAED model. Three scenarios—high economy (HS), energy efficiency (ES), and low economy (LS)—capture different trajectories of socio-economic and technological development. Results show that energy demand could grow annually by 5%, 4.5%, and 3% in HS, ES, and LS, respectively. Energy efficiency measures in the ES scenario could reduce demand by up to 5.7 mtoe by 2030. Electricity demand growth ranges from 3.4% to 5.5% per year, highlighting significant energy intensity improvements and conservation potential."

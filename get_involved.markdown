@@ -1,7 +1,7 @@
 ---
 theme: jekyll-theme-primer
 layout: sub-page
-title: FFRM
+title: Model for the Analysis of Energy Demand (MAED)
 permalink: /contact/
 ---
 
@@ -24,7 +24,7 @@ permalink: /contact/
       </div>
 
       <p class="text-center lead mb-4">
-        Join other FFRM practitioners by becoming part of our Discourse community—a dedicated online space for collaboration, learning, and sharing.
+        Join other MAED practitioners by becoming part of our Discourse community—a dedicated online space for collaboration, learning, and sharing.
       </p>
 
       <!-- Centered platform benefits -->
@@ -57,7 +57,7 @@ permalink: /contact/
       
       <div class="github-container">
         <div class="unified-github-card text-center">
-          <a href=" https://github.com/FossilFuelRetirementModel/ffrm_python" target="_blank" class="github-link">
+          <a href=" https://github.com/Model-for-Analysis-of-Energy-Demand " target="_blank" class="github-link">
             <svg height="80" viewBox="0 0 16 16" version="1.1" width="80" aria-hidden="true" class="mb-3">
               <path fill-rule="evenodd" fill="#0366d6" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 
               6.53 5.47 7.59.4.07.55-.17.55-.38 
@@ -73,23 +73,23 @@ permalink: /contact/
               2.2 0 .21.15.46.55.38A8.013 8.013 
               0 0016 8c0-4.42-3.58-8-8-8z"></path>
             </svg>
-            <h4 class="text-primary mt-2 mb-4">Contribute to FFRM on GitHub</h4>
+            <h4 class="text-primary mt-2 mb-4">Contribute to MAED on GitHub</h4>
           </a>
           
           <div class="contribution-section text-left">
             <h5>Contribute to This Website</h5>
             <p>
-              Want to share your FFRM-related work, training, or resources? We welcome external contributions to this site!
+              Want to share your MAED-related work, training, or resources? We welcome external contributions to this site!
             </p>
             <h6>How to contribute:</h6>
             <ul class="contribution-steps">
-              <li>Fork the repository: <a href=" https://github.com/FossilFuelRetirementModel/ffrm_python" target="_blank">github.com/FossilFuelRetirementModel/ffrm_python </a></li>
+              <li>Fork the repository: <a href="https://github.com/Model-for-Analysis-of-Energy-Demand" target="_blank">https://github.com/Model-for-Analysis-of-Energy-Demand </a></li>
               <li>Edit or add content (e.g. publications, capacity building activities)</li>
               <li>Submit a pull request</li>
               <li>A site administrator will review and approve if appropriate</li>
             </ul>
             <p class="text-muted">
-              This website exists to grow a self-sustaining FFRM community—open to all. Let's make sure your work is visible and contributes to the global ecosystem!
+              This website exists to grow a self-sustaining MAED community—open to all. Let's make sure your work is visible and contributes to the global ecosystem!
             </p>
           </div>
         </div>

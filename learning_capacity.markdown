@@ -1,7 +1,7 @@
 ---
 theme: jekyll-theme-primer
 layout: sub-page
-title: FFRM
+title: Model for the Analysis of Energy Demand (MAED)
 permalink: /learning_capacity/
 ---
 
@@ -13,16 +13,25 @@ permalink: /learning_capacity/
   </div>
     <div class="mt-3 animate-in">
       <h3 class="alt-h3 mt-3 animate-in" style="font-size: 1.25rem;">
-          <strong>📘 Aiming for Open University New Course Launch Soon</strong>
+          <strong>📘 Open University Course on Energy Demand Projections with MAED (Model for Analysis of Energy Demand)</strong>
         </a>
       </h3>
-      <!---
-      <p class="animate-in" style="font-size: 0.95rem;".</p>
+      <p class="animate-in" style="font-size: 0.95rem;" This course provides an introduction to the MAED methodology and hands on experience using the user interface, calibrating a model, and running scenarios.</p>
       <p class="animate-in">
         <a href="https://www.open.edu/openlearncreate/course/view.php?id=13558" class="btn btn-outline-light">Access Here →</a>
       </p>
     </div>
---->
+
+  <div class="mt-3 animate-in">
+      <h3 class="alt-h3 mt-3 animate-in" style="font-size: 1.25rem;">
+          <strong>MAED II User Interface</strong>
+        </a>
+      </h3>
+      <p class="animate-in" style="font-size: 0.95rem;" Download the dedicated user interface for MAED here. It provides a single space to input data, run the model, and visualize results. </p>
+      <p class="animate-in">
+        <a href=" https://github.com/Model-for-Analysis-of-Energy-Demand/MAED-UI " class="btn btn-outline-light">Access Here →</a>
+      </p>
+    </div>
 
 <!---
     <div class="mt-3 animate-in">
@@ -48,6 +57,7 @@ permalink: /learning_capacity/
         </div>
       </div>
     </div>
+-->
 
     <div class="mt-3 animate-in">
       <h3 class="alt-h3 mt-3 animate-in" style="font-size: 1.25rem;">
@@ -84,9 +94,9 @@ permalink: /learning_capacity/
         </div>
         {% endfor %}
       </div>
--->
-<!--
-      <!-- EMP-Adjacent Events 
+
+
+     EMP-Adjacent Events 
       <div class="clearfix gutter-spacious">
         <div class="col-md-12 animate-in mb-4">
           <h3 class="alt-h3 mb-3">EMP-Adjacent Events</h3>
@@ -100,6 +110,7 @@ permalink: /learning_capacity/
       </div>
     </div>
 
+<!--
     <h3 class="alt-h3 mt-3 animate-in" style="font-size: 1.25rem;">🛠️ Flatpack Program</h3>
     <p class="animate-in" style="font-size: 0.95rem;">Content to be updated soon.</p>
   

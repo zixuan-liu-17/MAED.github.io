@@ -1,37 +1,40 @@
 ---
 theme: jekyll-theme-primer
 layout: sub-page
-title: FFRM
+title: Model for the Analysis of Energy Demand (MAED)
 permalink: /applications/
 ---
 <section class="bg-gray-light container-lg p-responsive py-4 py-md-6 my-lg-6 fade-in-center">
   <div class="text-center fade-in-center">
-    <h2 class="alt-h2 mb-4">FFRM Applications</h2>
+    <h2 class="alt-h2 mb-4">MAED Applications</h2>
   </div>
 
   <div class="applications-content text-left">
-    <p class="lead mb-4">FFRM is a useful tool for assessing the stranded cost implications that may arise as a country decarbonizes its electricity sector. The model was originally developed by the World Bank to assess stranded cost under various defined scenarios, with its most recent application in exploring the stranded cost implications of decarbonizing India and the Philippines power sector. </p>
+    <p class="lead mb-4">MAED is a fundamental building block for a wide range of applications across government, industry, and academia. Several examples include: </p>
 
     <!--
      <div class="applications-grid">
       <div class="application-category">
         <h3 class="category-title">Governments</h3>
         <ul class="application-list">
-          <li><a href="https://energypedia.info/wiki/LTEM_-_Energy_Department_of_the_Cyprus_Institute">National Energy and Climate Plan in Cyprus</a></li>
+          <li><a href=" https://www-pub.iaea.org/MTCD/publications/PDF/Pub1328_web.pdf ">Cuba: A Country Profile on Sustainable Energy Development</a></li>
+          <li><a href="https://www-pub.iaea.org/MTCD/Publications/PDF/P1847_web.pdf">Adaptation Options for Nuclear and Other Energy Infrastructure to Long Term Climate Change in Pakistan</a></li>
+          <li><a href="https://www.iaea.org/publications/6970/energy-supply-options-for-lithuania">Energy supply options for Lithuania </a></li>
         </ul>  
-      </div>
-
-      <div class="application-category">
-        <h3 class="category-title">Industry and Think Tanks</h3>
-        <ul class="application-list">
-          <li><a href="https://www.globalccsinstitute.com/wp-content/uploads/2021/10/genzo1123.pdf">Global CCS Institute</a></li>
-        </ul>
       </div>
 
       <div class="application-category">
         <h3 class="category-title">Academia</h3>
         <ul class="application-list">
-          <li><a href="https://kth.diva-portal.org/smash/get/diva2:1576316/FULLTEXT01.pdf">Politecnico di Milano – 
+        <li><a href="https://www.sciencedirect.com/science/article/pii/S0360544210003245?via%3Dihub#sec5" target="_blank">An analytical method for the measurement of energy system sustainability in urban areas</a></li>
+        <li><a href="https://www.sciencedirect.com/science/article/abs/pii/S030142150500025X" target="_blank">Analysis of the Syrian long-term energy and electricity demand projection using the end-use methodology</a></li>
+        <li><a href="https://www-sciencedirect-com.iclibezp1.cc.ic.ac.uk/science/article/pii/S0378778816305527?via%3Dihub" target="_blank">Comparison of prediction models for determining energy demand in the residential sector of a country</a></li>
+        <li><a href="https://www.sciencedirect.com/science/article/pii/S0142061508000860" target="_blank">Construction of the hourly load curves and detecting the annual peak load of future Syrian electric power demand using bottom-up approach</a></li>
+        <li><a href="https://www.sciencedirect.com/science/article/pii/S2211467X16300499" target="_blank">Electricity generation technology options under the greenhouse gases mitigation scenario: Case study of Cameroon</a></li>
+        <li><a href="https://www.mdpi.com/1996-1073/16/17/6291" target="_blank">Energy Demand Modeling for the Transition of a Coal-Dependent City to a Low-Carbon City: The Case of Ulaanbaatar City</a></li>
+        <li><a href="https://www.jstage.jst.go.jp/article/jjser/41/5/41_149/_article" target="_blank">Energy Demand Modelling for Developing Economies Using MAED-2 with Sectoral Decomposition: Bangladesh Case Study</a></li>
+  </ul>
+
         </ul>
       </div>
     </div>
@@ -40,7 +43,8 @@ permalink: /applications/
 
  <section class="container-lg p-responsive py-4 py-md-6 my-lg-6">
   <div class="text-center mb-5">
-    <h2 class="alt-h2">Specialist versions of the tool</h2>
+     <h2 class="alt-h2">Specialist Applications</h2>
+    <p class="text-center mt-2">The following studies utilize modified versions of MAED to capture specific characteristics or extend its analytical capabilities:</p>
   </div>
 
   <div class="slider-wrapper my-5">
@@ -49,28 +53,18 @@ permalink: /applications/
     <div class="slider-container">
       <div class="slider" id="textSlider">
         <div class="slide-card">
-          <h3>OSeMOSYS Global</h3>
-          <p><a href="https://osemosys-global.readthedocs.io/en/latest/" target="_blank">Open-source global electricity model</a></p>
+          <h3>Interactive Energy Demand Analysis: The MAED-BI Model</h3>
+          <p><a href="https://pure.iiasa.ac.at/id/eprint/3356/" target="_blank">Application in the Shanxi Province, PRC</a></p>
         </div>
 
         <div class="slide-card">
-          <h3>GENESYS-MOD</h3>
-          <p><a href="https://git.tu-berlin.de/genesysmod/genesys-mod-public" target="_blank">Modular European decarbonisation model</a></p>
+          <h3>Positive Energy Districts in Vienna</h3>
+          <p><a href="https://www.mdpi.com/1996-1073/14/15/4449" target="_blank">Feasibility analysis using bottom-up district energy modelling</a></p>
         </div>
 
         <div class="slide-card">
-          <h3>TEMBA</h3>
-          <p><a href="https://zenodo.org/records/3521841" target="_blank">The African electricity model base</a></p>
-        </div>
-
-        <div class="slide-card">
-          <h3>OSeMBE</h3>
-          <p><a href="https://github.com/HauHe/OSeMBE" target="_blank">Open Source energy Model – Base for Europe</a></p>
-        </div>
-
-        <div class="slide-card">
-          <h3>SAMBA</h3>
-          <p><a href="http://www.osemosys.org/samba.html" target="_blank">Southern African Model Base for Analysis</a></p>
+          <h3>Energy Saving Measures and GHG Reduction in Croatia</h3>
+          <p><a href="https://www.sciencedirect.com/science/article/pii/S0360544214007440#sec2" target="_blank">Assessing the impact of energy saving measures on future energy demand</a></p>
         </div>
       </div>
     </div>

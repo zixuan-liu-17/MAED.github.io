@@ -1,10 +1,17 @@
 - name: GitHub
   icon: bi bi-github
-  url:   https://github.com/FossilFuelRetirementModel/ffrm_python 
+  url:  https://github.com/Model-for-Analysis-of-Energy-Demand  
 
 - name: Discord
   icon: bi bi-discord
   url: https://forum.u4ria.org/
 
+ name: Youtube
+  icon: bi bi-youtube
+  url: https://www.youtube.com/watch?v=Ff_TUSlcT48&list=PLhLN8V8JSUnLzlpLbFqV4oz7CJycVY4t1/
+
+ name: linkedin
+  icon: bi bi-linkedin
+  url:  https://www.linkedin.com/company/maed-model-for-the-analysis-of-energy-demand/posts/?feedView=all 
 
 

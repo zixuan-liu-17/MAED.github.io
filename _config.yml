@@ -55,7 +55,7 @@
 #   - vendor/ruby/
 
 # global settings
-title: " Fossil Fuel Retirement Model (FFRM)"
+title: " Model for the Analysis of Energy Demand (MAED)"
 description: "GitHub helps government build software better, together"
 permalink: "/stories/:title"
 # url: https://government.github.com
