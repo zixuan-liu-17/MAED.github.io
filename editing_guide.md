@@ -77,17 +77,19 @@ Reference: [Layouts in Jekyll](https://jekyllrb.com/docs/layouts/)
 Contains reusable content blocks used across multiple pages.
 
 | Include | Description |
-|----------|--------------|
+|----------|-------------|
 | `header.html` | Navigation bar |
 | `footer.html` | Footer with partner logos and contact info |
 | `coming_soon.html` | Standard placeholder for in-progress pages |
 | `subpage_links.html` | Adds navigation links between subpages |
 
 You can insert these blocks anywhere using:
-```liquid
 {% include header.html %}
 
+
 Reference: [Includes in Jekyll](https://jekyllrb.com/docs/includes/)
+
+---
 
 ## `_data/`
 
@@ -95,7 +97,7 @@ Stores structured content in YAML format.
 This makes it easy to update lists and dynamic content without editing HTML.
 
 | File | Description |
-|------|--------------|
+|------|-------------|
 | `learning_events.yml` | Data for EMP events and adjacent workshops displayed on the Learning page |
 | `publications.yml` | Recommended readings shown under Applications |
 | `social_media.yml` | Social media links in the footer |
@@ -109,43 +111,50 @@ Reference: [Working with Data Files](https://jekyllrb.com/docs/datafiles/)
 
 Holds all images used on the website.
 
-**Subfolders:**
-- `/EMP/` – Photos from EMP and related capacity-building events  
-- `/partners/` – Logos of collaborating organisations (for example, IAEA, IRENA)  
-- `/img/` – Tool logos, backgrounds, icons, and general visuals  
+| Subfolder | Purpose |
+|------------|----------|
+| `/EMP/` | Photos from EMP and related capacity-building events |
+| `/partners/` | Logos of collaborating organisations (e.g., IAEA, IRENA) |
+| *(root img folder)* | Tool logos, backgrounds, icons, and other general visuals |
 
-Event image names should match their YAML entries (for example, `EMP-A 2025.jpg`).
+🟢 **Tip:** Event image names should match their entries in `learning_events.yml` (e.g., `EMP-A 2025.jpg`).
+
+---
+
+### `assets/css/`
+
+Contains style sheets controlling the appearance of the site.
+
+| File | Purpose |
+|------|----------|
+| `custom.scss` | Defines custom site styling including fonts, colours, layout, and animations |
+| `style.scss` | Base theme styling inherited by all pages |
+
+All tool sites share a standard visual style, but editors can freely adjust colours and layout in `custom.scss` to match the tool’s branding.
+
+Reference: [Sass/SCSS Basics](https://sass-lang.com/guide)
 
 ---
 
-## Styling
+### `assets/js/`
 
-Located at `assets/css/custom.scss`
-
-This file controls the styling and visual identity of the site, including colours, fonts, spacing, and animations.
-
-All sites share a standard format, but you can modify styles to suit your tool’s branding.
-
-Reference: [Sass/SCSS Guide](https://sass-lang.com/guide)
-
----
+(Optional) Contains any JavaScript used for animations, sliders, or other dynamic page elements.
 
 ## Gemfiles
 
+Jekyll websites are built using Ruby dependencies defined in the Gemfiles.  
+These files ensure that all contributors use the same versions of Jekyll and its plugins.
+
 | File | Description |
 |------|--------------|
-| `Gemfile` | Lists Ruby and Jekyll dependencies |
-| `Gemfile.lock` | Automatically generated after installation |
+| `Gemfile` | Lists Ruby and Jekyll dependencies required to build the site |
+| `Gemfile.lock` | Automatically generated after installation — locks dependency versions for consistency |
 
-These files are used to build and run the Jekyll site locally.
-
-To install and preview:
+To build and preview the site locally:
 
 ```bash
 bundle install
 bundle exec jekyll serve
-
-Reference: [Jekyll Installation](https://jekyllrb.com/docs/installation/)
 
 ## `README.md`
 
@@ -171,38 +180,47 @@ Example from `learning_events.yml`:
     - country: "Rwanda"
       title: "Forecasting Final Energy Demand"
       url: "https://zenodo.org/records/15364342"
+```
 
 Reference: [YAML Basics](https://yaml.org/spec/)
 
-Editing and Submitting Changes
+---
+
+## Editing and Submitting Changes
 
 Follow these steps to safely edit and submit updates to the repository:
 
-Fork this repository on GitHub.
+1. **Fork** this repository on GitHub.
 
-Create a branch for your edits:
+2. **Create a branch** for your edits:
 
-git checkout -b update-learning-page
+   ```bash
+   git checkout -b update-learning-page
+   ```
 
+3. **Edit** the `.markdown` or `.yml` files as needed.
 
-Edit the .markdown or .yml files as needed.
+4. **Commit** your changes with a clear message:
 
-Commit your changes with a clear message:
+   ```bash
+   git add .
+   git commit -m "Updated EMP-A 2025 event details"
+   ```
 
-git add .
-git commit -m "Updated EMP-A 2025 event details"
+5. **Push** your branch to your fork:
 
+   ```bash
+   git push origin update-learning-page
+   ```
 
-Push your branch to your fork:
+6. **Open a Pull Request** on GitHub to propose your changes.
 
-git push origin update-learning-page
+Reference: [Creating a Pull Request](https://docs.github.com/en/pull-requests)
 
+---
 
-Open a Pull Request on GitHub to propose your changes.
+## Summary of Folder Structure
 
-Reference: Creating a Pull Request
-
-Summary of Folder Structure
 | Folder/File | Purpose |
 |--------------|----------|
 | `_config.yml` | Main site configuration |
@@ -220,22 +238,23 @@ Summary of Folder Structure
 | `README.md` | Repository overview on GitHub |
 | `editing_guide.md` | Internal guide for editors (this document) |
 
+---
 
 ## Previewing Your Changes Locally
 
 You can test your edits locally before submitting them.
 
-Open a terminal in the repository folder.
+Open a terminal in the repository folder and run:
 
-Run the following commands:
-
+```bash
 bundle install
 bundle exec jekyll serve
+```
 
+Then open your browser and go to:
 
-Open your browser and go to:
-
+```
 http://localhost:4000
+```
 
-
-This will let you preview the site as it would appear once published.
+This will let you preview the site exactly as it would appear once published.
