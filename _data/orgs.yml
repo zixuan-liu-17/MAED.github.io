@@ -1,7 +1,7 @@
 # Partner institutions for homepage display
 partners:
   - name: International Atomic Energy Agency (IAEA)
-    logo: assets/img/partners/IAEA.png
+    logo: /assets/img/partners/IAEA.png
     display_name: IAEA
     url: https://www.iaea.org/
 
