@@ -65,7 +65,7 @@ permalink: /about/
     <!-- Model Documentation -->
     <div class="icon-link-item">
       <a href="https://www.iaea.org/publications/7430/model-for-analysis-of-energy-demand-maed-2" target="_blank">
-        <img src="/assets/img/Rtdicon.png" width="80" height="80" alt="ReadTheDocs icon" />
+        <img src="../assets/img/Rtdicon.png" width="80" height="80" alt="ReadTheDocs icon" />
         <h3 class="aboutpage-subtitle text-primary">Model Documentation</h3>
       </a>
     </div>
