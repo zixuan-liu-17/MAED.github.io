@@ -2,7 +2,7 @@ events:
   - title: "EMP-A 2025 - Addis Ababa, Ethiopia"
     image: "/assets/img/EMP/EMP-A 2025.jpg"
     alt: "EMP-A 2025"
-    description: "Hosted at the United Nations Economic Commission for Africa in April–May 2025. Five teams developed national-scale models focusing on specific sectors. The teams were from Rwanda (x2), Ghana, Kenya, and Ethiopia."
+    description: "Hosted at the United Nations Economic Commission for Africa in April and May 2025. Five teams developed national-scale models focusing on specific sectors. The teams were from Rwanda (x2), Ghana, Kenya, and Ethiopia."
     outputs:
       - country: "Rwanda"
         flag: "🇷🇼"
