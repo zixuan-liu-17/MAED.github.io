@@ -25,7 +25,7 @@ permalink: /learning_capacity/
 
   <div class="mt-3 animate-in">
       <h3 class="alt-h3 mt-3 animate-in" style="font-size: 1.25rem;">
-      <a href="https://github.com/Model-for-Analysis-of-Energy-Demand/MAED-UI" class="text-dark font-weight-bold" 
+      <a href="https://github.com/Model-for-Analysis-of-Energy-Demand/MAED-UI" class="text-dark font-weight-bold">
           <strong>MAED II User Interface</strong>
         </a>
       </h3>
