@@ -1,6 +1,6 @@
 events:
   - title: "EMP-A 2025 - Addis Ababa, Ethiopia"
-    image: "/assets/img/EMP/EMP-A 2025.jpg"
+    image: "/assets/img/EMP/EMP-A-2025.jpg"
     alt: "EMP-A 2025"
     description: "Hosted at the United Nations Economic Commission for Africa in April and May 2025. Five teams developed national-scale models focusing on specific sectors. The teams were from Rwanda (x2), Ghana, Kenya, and Ethiopia."
     outputs:
@@ -27,7 +27,7 @@ events:
  
 
   - title: "EMP-G 2024 - Trieste, Italy"
-    image: "/assets/img/EMP/EMP-G 2024.jpg"
+    image: "/assets/img/EMP/EMP-G-2024.jpg"
     alt: "EMP-G 2024"
     description: "Held from 12-23 August 2024 at ICTP. Two national teams developed country-specific models for specific sectors in South Africa and Uganda."
     outputs:
@@ -38,7 +38,7 @@ events:
  
 
   - title: "EMP-A 2024 - Accra, Ghana"
-    image: "/assets/img/EMP/EMP-A 2024.jpg"
+    image: "/assets/img/EMP/EMP-A-2024.jpg"
     alt: "EMP-A 2024"
     description: "Held from 20-31 May 2024 at the Ghana Institute of Management and Public Administration. Three teams worked on national energy models for Ethiopia, Kenya, and Zambia."
     outputs:
