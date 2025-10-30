@@ -15,7 +15,8 @@
         window.netlifyIdentity.on('init', function(user) {
           if (!user) {
             window.netlifyIdentity.on('login', function() {
-              document.location.href = '/admin/';
+              // Use relative redirect so it works under project pages base path
+              document.location.href = './';
             });
           }
         });
