@@ -46,20 +46,20 @@ jobs:
           # Split front matter (--- ... ---) and body
           awk 'BEGIN{fs="\r?\n"} {print}' "$FILE" > .tmp_src.md
           python3 - << 'PY'
-import sys
-src = open('.tmp_src.md','r',encoding='utf-8').read()
-body = open('.tmp_body.md','r',encoding='utf-8').read()
-if src.lstrip().startswith('---'):
-    parts = src.split('\n---\n', 2)
-    if len(parts) >= 3:
-        front = parts[1]
-        # parts: ['', front, rest]
-        new = f"---\n{front}\n---\n" + body.strip() + "\n"
-    else:
-        new = body.strip() + "\n"
-else:
-    new = body.strip() + "\n"
-open('.out.md','w',encoding='utf-8').write(new)
+  import sys
+  src = open('.tmp_src.md','r',encoding='utf-8').read()
+  body = open('.tmp_body.md','r',encoding='utf-8').read()
+  if src.lstrip().startswith('---'):
+      parts = src.split('\n---\n', 2)
+      if len(parts) >= 3:
+          front = parts[1]
+          # parts: ['', front, rest]
+          new = f"---\n{front}\n---\n" + body.strip() + "\n"
+      else:
+          new = body.strip() + "\n"
+  else:
+      new = body.strip() + "\n"
+  open('.out.md','w',encoding='utf-8').write(new)
 PY
           mv .out.md "$FILE"
           rm -f .tmp_body.md .tmp_src.md
