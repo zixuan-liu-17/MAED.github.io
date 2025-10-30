@@ -1,32 +1,20 @@
 
 Website for MAED
 
-## Editing without coding (Decap CMS)
+## Non-technical editing via GitHub Issues → Pull Request
 
-This site includes a no-code editor at `/admin/` powered by Decap CMS. It lets editors update pages, posts, and data files in the repository via a friendly UI.
+Editors can submit content updates without touching code, and the workflow will open a PR automatically for maintainers to review and merge.
 
-### One-time setup (maintainer)
-1. Create a Netlify site connected to this GitHub repo (Use the default build settings; we still host on GitHub Pages).
-2. In Netlify → Identity: Enable Identity.
-3. In Identity → Settings → Services: Enable Git Gateway.
-4. Invite editors via Identity → Invite users. They will accept via email and can sign in.
+1) Create an edit request
+- Go to GitHub → Issues → New issue → "Edit existing page/content"
+- Choose the page (e.g., `about.markdown`) and paste the new body in Markdown
 
-Note: Hosting remains on GitHub Pages. Netlify is only used for authentication and Git Gateway.
+2) Automation opens a PR
+- Workflow `.github/workflows/issue-content-to-pr.yml` creates a pull request that updates the selected file while preserving its front matter
+- Maintainers review and merge; GitHub Pages will rebuild
 
-### How editors log in
-1. Visit `https://zixuan-liu-17.github.io/MAED.github.io/admin/`.
-2. Click “Login” (Netlify Identity modal).
-3. After login, you can edit:
-   - Posts (`_posts`)
-   - Pages (About, Application, Dataset, Get Involved, Learning Capacity, Coming Soon, Editing Guide)
-   - Data files (`_data/*.yml`)
-4. Changes are committed to the `main` branch via pull requests (editorial workflow). Publish when ready.
-
-### Media uploads
-- Uploaded images are stored in `assets/img` and referenced as `/assets/img/...`.
-
-### Admin config
-- See `admin/config.yml` for collections and fields. Update as site structure evolves.
+Media uploads
+- Upload images in the GitHub web UI to `assets/img/` and reference as `/assets/img/<filename>` in Markdown
 
 ## No third-party option (GitHub Issues → PR)
 
