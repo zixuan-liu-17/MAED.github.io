@@ -1,0 +1,19 @@
+name: Edit Applications page (sections)
+description: Update predefined sections of application.markdown
+labels: [content-edit, applications]
+body:
+  - type: textarea
+    id: applications_intro
+    attributes:
+      label: Intro paragraph
+      description: Replaces content inside <!-- CMS:section id=applications_intro -->
+    validations:
+      required: false
+  - type: textarea
+    id: applications_reading_intro
+    attributes:
+      label: Reading intro paragraph
+      description: Replaces content inside <!-- CMS:section id=applications_reading_intro -->
+    validations:
+      required: false
+
