@@ -16,4 +16,20 @@ body:
       description: Replaces content inside <!-- CMS:section id=applications_reading_intro -->
     validations:
       required: false
+  - type: textarea
+    id: publications_yaml
+    attributes:
+      label: Publications data (YAML)
+      description: |
+        Optional. Paste the full contents of _data/publications.yml here to update it in one go.
+        Leave empty to keep existing publications.
+      placeholder: |
+        - title: Example
+          authors: Author A, Author B
+          year: "2025"
+          journal: Journal Name
+          url: https://example.com
+          abstract: Short abstract...
+    validations:
+      required: false
 

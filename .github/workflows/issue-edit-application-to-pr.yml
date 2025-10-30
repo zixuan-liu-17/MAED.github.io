@@ -29,7 +29,8 @@ jobs:
             }
             const out = {
               applications_intro: extract('Intro paragraph'),
-              applications_reading_intro: extract('Reading intro paragraph')
+              applications_reading_intro: extract('Reading intro paragraph'),
+              publications_yaml: extract('Publications data \(YAML\)')
             };
             core.setOutput('json', JSON.stringify(out));
 
@@ -48,6 +49,21 @@ jobs:
   for key in ['applications_intro','applications_reading_intro']:
       src = replace_section(src, key, data.get(key,'') )
   open(path,'w',encoding='utf-8').write(src)
+PY
+
+      - name: Update publications data if provided
+        if: ${{ fromJSON(steps.parse.outputs.json).publications_yaml != '' }}
+        run: |
+          python3 - << 'PY'
+  import json, yaml
+  data = json.loads('${{ steps.parse.outputs.json }}')
+  txt = data.get('publications_yaml','')
+  # Validate YAML parses to a list
+  items = yaml.safe_load(txt) if txt.strip() else None
+  if not isinstance(items, list):
+      raise SystemExit('Publications YAML must be a list of entries')
+  with open('_data/publications.yml','w',encoding='utf-8') as f:
+      yaml.safe_dump(items, f, allow_unicode=True, sort_keys=False)
 PY
 
       - name: Create PR

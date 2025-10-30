@@ -1,0 +1,41 @@
+name: Prefill Applications issue with publications YAML
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  prefill:
+    if: contains(github.event.issue.labels.*.name, 'applications')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read publications data
+        id: read
+        run: |
+          echo "yaml<<EOF" >> $GITHUB_OUTPUT
+          cat _data/publications.yml >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+      - name: Comment with current YAML
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const yaml = `${{ steps.read.outputs.yaml }}`;
+            const body = [
+              ':information_source: Copy the YAML below into the "Publications data (YAML)" field to edit:',
+              '',
+              '```yaml',
+              yaml,
+              '```'
+            ].join('\n');
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body
+            });
+
+
