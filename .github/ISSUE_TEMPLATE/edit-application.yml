@@ -10,13 +10,6 @@ body:
     validations:
       required: false
   - type: textarea
-    id: applications_reading_intro
-    attributes:
-      label: Reading intro paragraph
-      description: Replaces content inside <!-- CMS:section id=applications_reading_intro -->
-    validations:
-      required: false
-  - type: textarea
     id: publications_yaml
     attributes:
       label: Publications data (YAML)
