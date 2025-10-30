@@ -36,7 +36,7 @@ jobs:
 
       - name: Update application.markdown sections
         run: |
-          python3 - << 'PY'
+          python3 - <<-'PY'
   import json, re
   data = json.loads('${{ steps.parse.outputs.json }}')
   path = 'application.markdown'
@@ -54,7 +54,7 @@ PY
       - name: Update publications data if provided
         if: ${{ fromJSON(steps.parse.outputs.json).publications_yaml != '' }}
         run: |
-          python3 - << 'PY'
+          python3 - <<-'PY'
   import json, yaml
   data = json.loads('${{ steps.parse.outputs.json }}')
   txt = data.get('publications_yaml','')

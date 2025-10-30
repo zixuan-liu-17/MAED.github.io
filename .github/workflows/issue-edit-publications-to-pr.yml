@@ -44,7 +44,7 @@ jobs:
 
       - name: Update _data/publications.yml
         run: |
-          python3 - << 'PY'
+          python3 - <<-'PY'
   import yaml, json, sys
   from pathlib import Path
   data = json.loads('${{ steps.parse.outputs.json }}')

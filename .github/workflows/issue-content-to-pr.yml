@@ -45,7 +45,7 @@ jobs:
           fi
           # Split front matter (--- ... ---) and body
           awk 'BEGIN{fs="\r?\n"} {print}' "$FILE" > .tmp_src.md
-          python3 - << 'PY'
+          python3 - <<-'PY'
   import sys
   src = open('.tmp_src.md','r',encoding='utf-8').read()
   body = open('.tmp_body.md','r',encoding='utf-8').read()

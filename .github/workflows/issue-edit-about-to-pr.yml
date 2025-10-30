@@ -35,7 +35,7 @@ jobs:
 
       - name: Update about.markdown sections
         run: |
-          python3 - << 'PY'
+          python3 - <<-'PY'
             import json, re
             data = json.loads('${{ steps.parse.outputs.json }}')
             path = 'about.markdown'
