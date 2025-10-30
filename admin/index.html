@@ -19,6 +19,16 @@
       }
 
       if (window.netlifyIdentity) {
+        // Provide a manual way to open the login modal
+        var loginLink = document.createElement('a');
+        loginLink.href = '#';
+        loginLink.textContent = 'Log in';
+        loginLink.style.position = 'absolute';
+        loginLink.style.top = '12px';
+        loginLink.style.right = '16px';
+        loginLink.onclick = function(e){ e.preventDefault(); window.netlifyIdentity.open(); };
+        document.body.appendChild(loginLink);
+
         window.netlifyIdentity.on('init', function(user) {
           if (!user) {
             window.netlifyIdentity.on('login', function() {
