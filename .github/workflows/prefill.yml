@@ -1,0 +1,74 @@
+name: Prefill file content for content-edit issues
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  prefill:
+    if: contains(github.event.issue.labels.*.name, 'content-edit')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Parse target file from issue
+        id: parse
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body || '';
+            const match = body.match(/###\\s+Which file do you want to edit\\?\\n([\\s\\S]*?)(?=\\n###|$)/i);
+            if (!match) core.setFailed("Cannot find 'Which file do you want to edit?' section in issue body.");
+            const file = match[1].split('\n')[0].trim();
+            core.setOutput('file', file);
+
+      - name: Extract current content (without front matter)
+        id: read
+        run: |
+          FILE="${{ steps.parse.outputs.file }}"
+          if [ ! -f "$FILE" ]; then
+            echo "File not found: $FILE" >&2
+            echo "content<<EOF" >> $GITHUB_OUTPUT
+            echo "(File not found)" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            python3 - <<'PY'
+            import re, sys
+            path = "${{ steps.parse.outputs.file }}"
+            src = open(path, 'r', encoding='utf-8').read()
+            # Strip front matter if present
+            if src.lstrip().startswith('---'):
+                parts = src.split('\n---\n', 2)
+                body = parts[2] if len(parts) >= 3 else ''
+            else:
+                body = src
+            print("content<<EOF")
+            print(body.strip())
+            print("EOF")
+            PY >> $GITHUB_OUTPUT
+          fi
+
+      - name: Comment with current content
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const file = `${{ steps.parse.outputs.file }}`;
+            const content = `${{ steps.read.outputs.content }}`;
+            const body = [
+              `📝 Current content of \`${file}\``,
+              '',
+              'Copy below content into the "New body (Markdown)" field if you just want to modify:',
+              '',
+              '```markdown',
+              content,
+              '```'
+            ].join('\n');
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body
+            });

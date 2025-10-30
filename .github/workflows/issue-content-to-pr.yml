@@ -22,14 +22,15 @@ jobs:
         with:
           script: |
             const body = context.payload.issue.body || '';
-            function extract(section){
+            function extract(section) {
               const re = new RegExp(`###\\s+${section}\\n([\\s\\S]*?)(?=\\n###|$)`, 'i');
               const m = body.match(re);
               return m ? m[1].trim() : '';
             }
-            const file = extract('Which file do you want to edit\?').split('\n')[0].trim();
-            const content = extract('New body \(Markdown\)');
-            if(!file) core.setFailed('No file parsed from issue body.');
+            // 注意这里两个要转义的标题
+            const file = extract('Which file do you want to edit\\?').split('\n')[0].trim();
+            const content = extract('New body \\(Markdown\\)');
+            if (!file) core.setFailed('No file parsed from issue body.');
             core.setOutput('file', file);
             core.setOutput('content', content);
 
@@ -39,28 +40,36 @@ jobs:
           FILE="${{ steps.parse.outputs.file }}"
           CONTENT_FILE=.tmp_body.md
           printf "%s" "${{ steps.parse.outputs.content }}" > "$CONTENT_FILE"
+
           if [ ! -f "$FILE" ]; then
             echo "Target file not found: $FILE" >&2
             exit 1
           fi
-          # Split front matter (--- ... ---) and body
-          awk 'BEGIN{fs="\r?\n"} {print}' "$FILE" > .tmp_src.md
-          python3 - <<-'PY'
-  import sys
-  src = open('.tmp_src.md','r',encoding='utf-8').read()
-  body = open('.tmp_body.md','r',encoding='utf-8').read()
-  if src.lstrip().startswith('---'):
-      parts = src.split('\n---\n', 2)
-      if len(parts) >= 3:
-          front = parts[1]
-          # parts: ['', front, rest]
-          new = f"---\n{front}\n---\n" + body.strip() + "\n"
-      else:
-          new = body.strip() + "\n"
-  else:
-      new = body.strip() + "\n"
-  open('.out.md','w',encoding='utf-8').write(new)
-PY
+
+          cp "$FILE" .tmp_src.md
+
+          python3 - <<'PY'
+          import sys
+
+          # 读现有文件和issue里新的正文
+          src = open('.tmp_src.md', 'r', encoding='utf-8').read()
+          body = open('.tmp_body.md', 'r', encoding='utf-8').read()
+
+          # 保留 front matter
+          if src.lstrip().startswith('---'):
+              parts = src.split('\n---\n', 2)
+              if len(parts) >= 3:
+                  front = parts[1]
+                  new = f"---\n{front}\n---\n" + body.strip() + "\n"
+              else:
+                  # front matter 格式不完整，就直接用新内容
+                  new = body.strip() + "\n"
+          else:
+              new = body.strip() + "\n"
+
+          open('.out.md', 'w', encoding='utf-8').write(new)
+          PY
+
           mv .out.md "$FILE"
           rm -f .tmp_body.md .tmp_src.md
 
@@ -73,5 +82,3 @@ PY
             This PR was auto-generated from issue #${{ github.event.issue.number }}.
           branch: "content/edit-issue-${{ github.event.issue.number }}"
           delete-branch: true
-
-

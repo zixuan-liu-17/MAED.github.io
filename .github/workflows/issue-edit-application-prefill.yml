@@ -14,32 +14,36 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Read current contents
         id: read
         run: |
           echo "pubs<<EOF" >> $GITHUB_OUTPUT
           cat _data/publications.yml >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
+
           echo "intro<<EOF" >> $GITHUB_OUTPUT
-          python3 - <<-'PY'
-  import re
-  src=open('application.markdown','r',encoding='utf-8').read()
-  def extract(section_id):
-    m=re.search(r'<!--\s*CMS:section\s+id='+re.escape(section_id)+r'\s*-->([\s\S]*?)<!--\s*/CMS:section\s*-->',src,re.M)
-    print((m.group(1) if m else '').strip())
-  extract('applications_intro')
-PY
+          python3 - <<'PY'
+          import re
+          src = open('application.markdown', 'r', encoding='utf-8').read()
+          def extract(section_id):
+              m = re.search(r'<!--\\s*CMS:section\\s+id=' + re.escape(section_id) + r'\\s*-->([\\s\\S]*?)<!--\\s*/CMS:section\\s*-->', src, re.M)
+              print((m.group(1) if m else '').strip())
+          extract('applications_intro')
+          PY
           echo "EOF" >> $GITHUB_OUTPUT
+
           echo "readintro<<EOF" >> $GITHUB_OUTPUT
-          python3 - <<-'PY'
-  import re
-  src=open('application.markdown','r',encoding='utf-8').read()
-  def extract(section_id):
-    m=re.search(r'<!--\s*CMS:section\s+id='+re.escape(section_id)+r'\s*-->([\s\S]*?)<!--\s*/CMS:section\s*-->',src,re.M)
-    print((m.group(1) if m else '').strip())
-  extract('applications_reading_intro')
-PY
+          python3 - <<'PY'
+          import re
+          src = open('application.markdown', 'r', encoding='utf-8').read()
+          def extract(section_id):
+              m = re.search(r'<!--\\s*CMS:section\\s+id=' + re.escape(section_id) + r'\\s*-->([\\s\\S]*?)<!--\\s*/CMS:section\\s*-->', src, re.M)
+              print((m.group(1) if m else '').strip())
+          extract('applications_reading_intro')
+          PY
           echo "EOF" >> $GITHUB_OUTPUT
+
       - name: Comment with current YAML
         uses: actions/github-script@v7
         with:
@@ -71,5 +75,3 @@ PY
               issue_number: context.issue.number,
               body
             });
-
-

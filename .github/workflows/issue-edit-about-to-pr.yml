@@ -22,35 +22,62 @@ jobs:
         with:
           script: |
             const body = context.payload.issue.body || '';
-            function extract(label){
+            function extract(label) {
               const re = new RegExp(`###\\s+${label}\\n([\\s\\S]*?)(?=\\n###|$)`, 'i');
               const m = body.match(re);
               return m ? m[1].trim() : '';
             }
-            const fields = ['Intro paragraph','What does it do\?','Scope','Target audience','Outcomes','Getting started','Contribute'];
-            const ids    = ['about_intro','about_what_it_does','about_scope','about_audience','about_outcomes','about_getting_started','about_contribute'];
+            const fields = [
+              'Intro paragraph',
+              'What does it do\\?',
+              'Scope',
+              'Target audience',
+              'Outcomes',
+              'Getting started',
+              'Contribute'
+            ];
+            const ids = [
+              'about_intro',
+              'about_what_it_does',
+              'about_scope',
+              'about_audience',
+              'about_outcomes',
+              'about_getting_started',
+              'about_contribute'
+            ];
             const out = {};
-            for (let i=0;i<fields.length;i++) out[ids[i]] = extract(fields[i]);
+            for (let i = 0; i < fields.length; i++) out[ids[i]] = extract(fields[i]);
             core.setOutput('json', JSON.stringify(out));
 
       - name: Update about.markdown sections
         run: |
-          python3 - <<-'PY'
-            import json, re
-            data = json.loads('${{ steps.parse.outputs.json }}')
-            path = 'about.markdown'
-            src = open(path,'r',encoding='utf-8').read()
-            def replace_section(text, section_id, new_html):
-                if not new_html.strip():
-                    return text
-                pattern = re.compile(r'(<!--\s*CMS:section\s+id=' + re.escape(section_id) + r'\s*-->)([\s\S]*?)(<!--\s*/CMS:section\s*-->)', re.M)
-                def fmt(s):
-                    return s.strip() + '\n'
-                return pattern.sub(lambda m: m.group(1) + '\n' + fmt(new_html) + '      ' + m.group(3), text)
-            order = ['about_intro','about_what_it_does','about_scope','about_audience','about_outcomes','about_getting_started','about_contribute']
-            for key in order:
-                src = replace_section(src, key, data.get(key,'') )
-            open(path,'w',encoding='utf-8').write(src)
+          python3 - <<'PY'
+          import json, re
+          data = json.loads('${{ steps.parse.outputs.json }}')
+          path = 'about.markdown'
+          src = open(path, 'r', encoding='utf-8').read()
+
+          def replace_section(text, section_id, new_html):
+              if not new_html.strip():
+                  return text
+              pattern = re.compile(r'(<!--\\s*CMS:section\\s+id=' + re.escape(section_id) + r'\\s*-->)([\\s\\S]*?)(<!--\\s*/CMS:section\\s*-->)', re.M)
+              def fmt(s): return s.strip() + '\\n'
+              return pattern.sub(lambda m: m.group(1) + '\\n' + fmt(new_html) + '      ' + m.group(3), text)
+
+          order = [
+              'about_intro',
+              'about_what_it_does',
+              'about_scope',
+              'about_audience',
+              'about_outcomes',
+              'about_getting_started',
+              'about_contribute'
+          ]
+
+          for key in order:
+              src = replace_section(src, key, data.get(key, ''))
+
+          open(path, 'w', encoding='utf-8').write(src)
           PY
 
       - name: Create PR
@@ -62,5 +89,3 @@ jobs:
             Auto-generated from issue #${{ github.event.issue.number }}.
           branch: "content/about-issue-${{ github.event.issue.number }}"
           delete-branch: true
-
-
