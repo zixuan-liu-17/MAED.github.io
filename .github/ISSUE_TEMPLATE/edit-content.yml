@@ -1,0 +1,36 @@
+name: Edit existing page/content
+description: Update an existing Markdown page without coding
+labels: [content-edit]
+body:
+  - type: dropdown
+    id: file
+    attributes:
+      label: Which file do you want to edit?
+      options:
+        - about.markdown
+        - application.markdown
+        - dataset.markdown
+        - get_involved.markdown
+        - learning_capacity.markdown
+        - coming_soon.md
+        - editing_guide.md
+    validations:
+      required: true
+  - type: textarea
+    id: content
+    attributes:
+      label: New body (Markdown)
+      description: |
+        Paste the full body you want on the page. Front matter (title/layout/permalink) will be kept.
+      placeholder: |
+        Write your content here in Markdown...
+    validations:
+      required: true
+  - type: input
+    id: note
+    attributes:
+      label: Short note for maintainers (optional)
+      placeholder: e.g. Updated the first two sections.
+    validations:
+      required: false
+

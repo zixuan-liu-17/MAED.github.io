@@ -1,0 +1,38 @@
+name: New Post
+description: Submit a new blog post for the site
+labels: [publish-post]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: Title
+      description: Post title
+      placeholder: e.g. Welcome to MAED
+    validations:
+      required: true
+  - type: input
+    id: date
+    attributes:
+      label: Date (YYYY-MM-DD)
+      description: Leave blank to use today
+      placeholder: 2025-01-05
+    validations:
+      required: false
+  - type: input
+    id: slug
+    attributes:
+      label: Slug (optional)
+      description: URL part; leave blank to auto-generate from title
+      placeholder: welcome-to-maed
+    validations:
+      required: false
+  - type: textarea
+    id: body
+    attributes:
+      label: Content (Markdown)
+      description: Main content of the post in Markdown
+      placeholder: |
+        Write your post here...
+    validations:
+      required: true
+
