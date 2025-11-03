@@ -10,13 +10,37 @@ permissions:
 
 jobs:
   prefill:
-    if: contains(github.event.issue.labels.*.name, 'content-edit')
     runs-on: ubuntu-latest
     steps:
+      - name: Check if label exists
+        id: check_label
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // 等待标签应用，有时标签是异步应用的
+            const labels = context.payload.issue.labels || [];
+            const labelNames = labels.map(l => l.name);
+            console.log('Issue labels:', labelNames);
+            
+            // 检查是否有 content-edit 标签
+            const hasContentEdit = labelNames.includes('content-edit');
+            
+            // 如果没有标签，也检查 issue body 是否匹配我们的模板
+            // 这样可以处理标签还没应用的情况
+            const body = context.payload.issue.body || '';
+            const hasFileQuestion = body.includes('Which file do you want to edit');
+            
+            const shouldRun = hasContentEdit || hasFileQuestion;
+            console.log('Should run:', shouldRun, '(hasContentEdit:', hasContentEdit, ', hasFileQuestion:', hasFileQuestion, ')');
+            
+            core.setOutput('should_run', shouldRun);
+
       - name: Checkout code
+        if: steps.check_label.outputs.should_run == 'true'
         uses: actions/checkout@v4
 
       - name: Parse target file from issue
+        if: steps.check_label.outputs.should_run == 'true'
         id: parse
         uses: actions/github-script@v7
         with:
@@ -40,6 +64,7 @@ jobs:
             core.setOutput('file', file);
 
       - name: Extract current content (without front matter)
+        if: steps.check_label.outputs.should_run == 'true'
         id: read
         run: |
           FILE="${{ steps.parse.outputs.file }}"
@@ -66,6 +91,7 @@ jobs:
           fi
 
       - name: Comment with current content
+        if: steps.check_label.outputs.should_run == 'true'
         uses: actions/github-script@v7
         with:
           script: |

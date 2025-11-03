@@ -10,12 +10,31 @@ permissions:
 
 jobs:
   prefill:
-    if: contains(github.event.issue.labels.*.name, 'applications')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Check if label exists
+        id: check_label
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = context.payload.issue.labels || [];
+            const labelNames = labels.map(l => l.name);
+            console.log('Issue labels:', labelNames);
+            
+            const hasApplications = labelNames.includes('applications');
+            const body = context.payload.issue.body || '';
+            const hasApplicationFields = body.includes('Publications data') || body.includes('Intro paragraph');
+            
+            const shouldRun = hasApplications || hasApplicationFields;
+            console.log('Should run:', shouldRun);
+            core.setOutput('should_run', shouldRun);
+
+      - name: Checkout code
+        if: steps.check_label.outputs.should_run == 'true'
+        uses: actions/checkout@v4
 
       - name: Read current contents
+        if: steps.check_label.outputs.should_run == 'true'
         id: read
         run: |
           echo "pubs<<EOF" >> $GITHUB_OUTPUT
@@ -45,6 +64,7 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Comment with current YAML
+        if: steps.check_label.outputs.should_run == 'true'
         uses: actions/github-script@v7
         with:
           script: |

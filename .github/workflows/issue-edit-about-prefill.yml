@@ -10,12 +10,31 @@ permissions:
 
 jobs:
   prefill:
-    if: contains(github.event.issue.labels.*.name, 'about')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Check if label exists
+        id: check_label
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = context.payload.issue.labels || [];
+            const labelNames = labels.map(l => l.name);
+            console.log('Issue labels:', labelNames);
+            
+            const hasAbout = labelNames.includes('about');
+            const body = context.payload.issue.body || '';
+            const hasAboutFields = body.includes('Intro paragraph') || body.includes('What does it do');
+            
+            const shouldRun = hasAbout || hasAboutFields;
+            console.log('Should run:', shouldRun);
+            core.setOutput('should_run', shouldRun);
+
+      - name: Checkout code
+        if: steps.check_label.outputs.should_run == 'true'
+        uses: actions/checkout@v4
 
       - name: Read current sections from about.markdown
+        if: steps.check_label.outputs.should_run == 'true'
         id: read
         run: |
           echo "intro<<EOF" >> $GITHUB_OUTPUT
@@ -96,6 +115,7 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Comment with current sections
+        if: steps.check_label.outputs.should_run == 'true'
         uses: actions/github-script@v7
         with:
           script: |
