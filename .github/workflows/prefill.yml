@@ -13,7 +13,8 @@ jobs:
     if: contains(github.event.issue.labels.*.name, 'content-edit')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Parse target file from issue
         id: parse
@@ -21,15 +22,17 @@ jobs:
         with:
           script: |
             const body = context.payload.issue.body || '';
+            console.log('Issue body (first 500 chars):', body.substring(0, 500));
+            
             function extract(section) {
               const re = new RegExp(`###\\s+${section}\\n([\\s\\S]*?)(?=\\n###|$)`, 'i');
               const m = body.match(re);
               return m ? m[1].trim() : '';
             }
-            // 使用与 issue-content-to-pr.yml 相同的解析逻辑
+            // 使用与 issue-content-to-pr.yml 完全相同的解析逻辑
             const file = extract('Which file do you want to edit\\?').split('\n')[0].trim();
             if (!file) {
-              console.log('Issue body:', body);
+              console.log('Full issue body:', body);
               core.setFailed('Cannot find "Which file do you want to edit?" section in issue body.');
               return;
             }
