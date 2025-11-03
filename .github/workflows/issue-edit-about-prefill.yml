@@ -1,0 +1,136 @@
+name: Prefill About issue with current sections
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  prefill:
+    if: contains(github.event.issue.labels.*.name, 'about')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read current sections from about.markdown
+        id: read
+        run: |
+          echo "intro<<EOF" >> $GITHUB_OUTPUT
+          python3 - <<'PY'
+          import re
+          src = open('about.markdown', 'r', encoding='utf-8').read()
+          def extract(section_id):
+              m = re.search(r'<!--\s*CMS:section\s+id=' + re.escape(section_id) + r'\s*-->([\s\S]*?)<!--\s*/CMS:section\s*-->', src, re.M)
+              print((m.group(1) if m else '').strip())
+          extract('about_intro')
+          PY
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          echo "what_it_does<<EOF" >> $GITHUB_OUTPUT
+          python3 - <<'PY'
+          import re
+          src = open('about.markdown', 'r', encoding='utf-8').read()
+          def extract(section_id):
+              m = re.search(r'<!--\s*CMS:section\s+id=' + re.escape(section_id) + r'\s*-->([\s\S]*?)<!--\s*/CMS:section\s*-->', src, re.M)
+              print((m.group(1) if m else '').strip())
+          extract('about_what_it_does')
+          PY
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          echo "scope<<EOF" >> $GITHUB_OUTPUT
+          python3 - <<'PY'
+          import re
+          src = open('about.markdown', 'r', encoding='utf-8').read()
+          def extract(section_id):
+              m = re.search(r'<!--\s*CMS:section\s+id=' + re.escape(section_id) + r'\s*-->([\s\S]*?)<!--\s*/CMS:section\s*-->', src, re.M)
+              print((m.group(1) if m else '').strip())
+          extract('about_scope')
+          PY
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          echo "audience<<EOF" >> $GITHUB_OUTPUT
+          python3 - <<'PY'
+          import re
+          src = open('about.markdown', 'r', encoding='utf-8').read()
+          def extract(section_id):
+              m = re.search(r'<!--\s*CMS:section\s+id=' + re.escape(section_id) + r'\s*-->([\s\S]*?)<!--\s*/CMS:section\s*-->', src, re.M)
+              print((m.group(1) if m else '').strip())
+          extract('about_audience')
+          PY
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          echo "outcomes<<EOF" >> $GITHUB_OUTPUT
+          python3 - <<'PY'
+          import re
+          src = open('about.markdown', 'r', encoding='utf-8').read()
+          def extract(section_id):
+              m = re.search(r'<!--\s*CMS:section\s+id=' + re.escape(section_id) + r'\s*-->([\s\S]*?)<!--\s*/CMS:section\s*-->', src, re.M)
+              print((m.group(1) if m else '').strip())
+          extract('about_outcomes')
+          PY
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          echo "getting_started<<EOF" >> $GITHUB_OUTPUT
+          python3 - <<'PY'
+          import re
+          src = open('about.markdown', 'r', encoding='utf-8').read()
+          def extract(section_id):
+              m = re.search(r'<!--\s*CMS:section\s+id=' + re.escape(section_id) + r'\s*-->([\s\S]*?)<!--\s*/CMS:section\s*-->', src, re.M)
+              print((m.group(1) if m else '').strip())
+          extract('about_getting_started')
+          PY
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          echo "contribute<<EOF" >> $GITHUB_OUTPUT
+          python3 - <<'PY'
+          import re
+          src = open('about.markdown', 'r', encoding='utf-8').read()
+          def extract(section_id):
+              m = re.search(r'<!--\s*CMS:section\s+id=' + re.escape(section_id) + r'\s*-->([\s\S]*?)<!--\s*/CMS:section\s*-->', src, re.M)
+              print((m.group(1) if m else '').strip())
+          extract('about_contribute')
+          PY
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Comment with current sections
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const intro = `${{ steps.read.outputs.intro }}`;
+            const whatItDoes = `${{ steps.read.outputs.what_it_does }}`;
+            const scope = `${{ steps.read.outputs.scope }}`;
+            const audience = `${{ steps.read.outputs.audience }}`;
+            const outcomes = `${{ steps.read.outputs.outcomes }}`;
+            const gettingStarted = `${{ steps.read.outputs.getting_started }}`;
+            const contribute = `${{ steps.read.outputs.contribute }}`;
+            
+            const sections = [
+              { name: 'Intro paragraph', id: 'about_intro', content: intro },
+              { name: 'What does it do?', id: 'about_what_it_does', content: whatItDoes },
+              { name: 'Scope', id: 'about_scope', content: scope },
+              { name: 'Target audience', id: 'about_audience', content: audience },
+              { name: 'Outcomes', id: 'about_outcomes', content: outcomes },
+              { name: 'Getting started', id: 'about_getting_started', content: gettingStarted },
+              { name: 'Contribute', id: 'about_contribute', content: contribute }
+            ];
+            
+            const parts = [':information_source: Current page sections for quick copy/paste →', ''];
+            sections.forEach(section => {
+              if (section.content && section.content.trim()) {
+                parts.push(`**${section.name}**`);
+                parts.push('```html');
+                parts.push(section.content);
+                parts.push('```');
+                parts.push('');
+              }
+            });
+            
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body: parts.join('\n')
+            });
+

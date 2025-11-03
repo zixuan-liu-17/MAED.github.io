@@ -21,9 +21,19 @@ jobs:
         with:
           script: |
             const body = context.payload.issue.body || '';
-            const match = body.match(/###\\s+Which file do you want to edit\\?\\n([\\s\\S]*?)(?=\\n###|$)/i);
-            if (!match) core.setFailed("Cannot find 'Which file do you want to edit?' section in issue body.");
-            const file = match[1].split('\n')[0].trim();
+            function extract(section) {
+              const re = new RegExp(`###\\s+${section}\\n([\\s\\S]*?)(?=\\n###|$)`, 'i');
+              const m = body.match(re);
+              return m ? m[1].trim() : '';
+            }
+            // 使用与 issue-content-to-pr.yml 相同的解析逻辑
+            const file = extract('Which file do you want to edit\\?').split('\n')[0].trim();
+            if (!file) {
+              console.log('Issue body:', body);
+              core.setFailed('Cannot find "Which file do you want to edit?" section in issue body.');
+              return;
+            }
+            console.log('Parsed file:', file);
             core.setOutput('file', file);
 
       - name: Extract current content (without front matter)
