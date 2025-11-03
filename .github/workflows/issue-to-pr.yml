@@ -62,30 +62,34 @@ jobs:
       - name: Read and extract front matter
         if: steps.parse.outputs.should_run == 'true'
         id: prepare
+        shell: bash
         run: |
           FILE="${{ steps.parse.outputs.filePath }}"
           echo "Processing $FILE"
 
           if [ ! -f "$FILE" ]; then
-            echo "has_frontmatter=false" >> $GITHUB_OUTPUT
+            echo "has_frontmatter=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
           if head -n 1 "$FILE" | grep -q "^---$"; then
-            echo "has_frontmatter=true" >> $GITHUB_OUTPUT
-            python3 <<PY > frontmatter.txt
-import re
-with open("${{ steps.parse.outputs.filePath }}", encoding="utf-8") as f:
-    text = f.read()
-m = re.match(r"^---\n(.*?)\n---\n", text, re.S)
-if m:
-    print(m.group(1))
-PY
-            echo "frontmatter<<EOF" >> $GITHUB_OUTPUT
-            cat frontmatter.txt >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
+            echo "has_frontmatter=true" >> "$GITHUB_OUTPUT"
+            python3 > frontmatter.txt <<'PY'
+            import re, sys
+            path = "${{ steps.parse.outputs.filePath }}"
+            with open(path, encoding="utf-8") as f:
+                text = f.read()
+            m = re.match(r"^---\n(.*?)\n---\n", text, re.S)
+            if m:
+                print(m.group(1))
+            PY
+            {
+              echo "frontmatter<<EOF"
+              cat frontmatter.txt
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
           else
-            echo "has_frontmatter=false" >> $GITHUB_OUTPUT
+            echo "has_frontmatter=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Create new file content
