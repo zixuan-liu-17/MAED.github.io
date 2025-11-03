@@ -136,15 +136,23 @@ jobs:
             const filePath = process.env.FILE_PATH;
             const newContent = process.env.NEW_CONTENT;
             const hasFrontmatter = process.env.HAS_FRONTMATTER === 'true';
-            const frontmatter = process.env.FRONTMATTER;
+            const frontmatter = process.env.FRONTMATTER || '';
+            
+            console.log('Debug info:');
+            console.log('- File path:', filePath);
+            console.log('- Has frontmatter:', hasFrontmatter);
+            console.log('- Frontmatter length:', frontmatter.length);
+            console.log('- New content length:', newContent.length);
             
             let finalContent;
-            if (hasFrontmatter && frontmatter) {
+            if (hasFrontmatter && frontmatter.trim()) {
               // 保留 front matter
               finalContent = `---\n${frontmatter}\n---\n${newContent}`;
+              console.log('✅ Preserved front matter');
             } else {
               // 没有 front matter
               finalContent = newContent;
+              console.log('⚠️ No front matter to preserve');
             }
             
             fs.writeFileSync(filePath, finalContent, 'utf8');
