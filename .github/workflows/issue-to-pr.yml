@@ -77,12 +77,12 @@ jobs:
 
             # 安全的 Python 单行解析（无 heredoc）
             python3 -c "
-import re, sys
-path = '${{ steps.parse.outputs.filePath }}'
-text = open(path, encoding='utf-8').read()
-m = re.match(r'^---\\n(.*?)\\n---\\n', text, re.S)
-if m: print(m.group(1))
-" > frontmatter.txt
+            import re, sys
+            path = '${{ steps.parse.outputs.filePath }}'
+            text = open(path, encoding='utf-8').read()
+            m = re.match(r'^---\\n(.*?)\\n---\\n', text, re.S)
+            if m: print(m.group(1))
+            " > frontmatter.txt
 
             {
               echo 'frontmatter<<EOF'
