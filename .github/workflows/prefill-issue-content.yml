@@ -103,8 +103,17 @@ jobs:
               const originalBody = context.payload.issue.body || '';
               const header = `\n\n---\n\n### 🧾 Prefilled Content from \`${filePath}\`\n\n`;
               const prefilledContent = '```markdown\n' + content + '\n```\n\n';
-              const newBody = originalBody + header + prefilledContent +
-                              '> 💡 Please edit the content above and submit your PR when ready.';
+              const instructions = [
+                '> 📝 **How to edit:**',
+                '> 1. Click the **three dots (···)** in the top right corner',
+                '> 2. Select **"Edit"**',
+                '> 3. Edit the content in the code block above (between \\`\\`\\`markdown and \\`\\`\\`)',
+                '> 4. Click **"Update comment"** to save',
+                '> 5. The system will automatically create a Pull Request',
+                '',
+                '> ⚠️ **Important:** Only edit the content inside the code block, do not delete the \\`\\`\\`markdown markers!'
+              ].join('\n');
+              const newBody = originalBody + header + prefilledContent + instructions;
               
               await github.rest.issues.update({
                 ...context.repo,
