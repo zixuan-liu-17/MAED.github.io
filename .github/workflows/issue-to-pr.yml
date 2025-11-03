@@ -108,17 +108,23 @@ jobs:
             const content = fs.readFileSync(filePath, 'utf8');
             
             // 检查是否有 front matter
-            if (content.trim().startsWith('---')) {
-              const parts = content.split(/\n---\n/);
-              if (parts.length >= 3) {
-                const frontmatter = parts[1];
+            // Front matter 格式: ---\nkey: value\n---\n
+            if (content.startsWith('---\n')) {
+              // 找到第二个 --- 的位置
+              const secondDashIndex = content.indexOf('\n---\n', 4);
+              if (secondDashIndex > 0) {
+                // 提取 front matter（不包括开头和结尾的 ---）
+                const frontmatter = content.substring(4, secondDashIndex);
                 core.setOutput('has_frontmatter', 'true');
                 core.setOutput('frontmatter', frontmatter);
                 console.log('✅ Found front matter, length:', frontmatter.length);
+                console.log('Front matter preview:', frontmatter.substring(0, 100));
               } else {
+                console.log('⚠️ Found opening --- but no closing ---');
                 core.setOutput('has_frontmatter', 'false');
               }
             } else {
+              console.log('⚠️ File does not start with ---');
               core.setOutput('has_frontmatter', 'false');
             }
 
