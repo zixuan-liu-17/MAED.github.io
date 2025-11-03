@@ -1,0 +1,92 @@
+name: Prefill Issue Content from Repo
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  prefill:
+    # 只对使用了 content-edit 标签的 issue 生效
+    if: contains(github.event.issue.labels.*.name, 'content-edit')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Parse issue body to get target file
+        id: parse
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body || '';
+            console.log('Issue body:', body.substring(0, 500));
+            
+            // 从 issue body 中提取 "Which file do you want to edit?" 的回答部分
+            // GitHub forms 格式: ### Label\n\nvalue\n
+            const match = body.match(/###\s*Which file do you want to edit\?\s*\n\s*([^\n]+)/i);
+            let filePath = match ? match[1].trim() : null;
+            
+            // 如果没匹配到，尝试其他模式
+            if (!filePath) {
+              const match2 = body.match(/Which file do you want to edit[?？]\s*([\s\S]*?)(?=\n###|\n\n|$)/i);
+              filePath = match2 ? match2[1].trim().split(/\s+/)[0] : null;
+            }
+            
+            if (!filePath) {
+              console.error('No file path found in issue body');
+              core.setFailed('No file path found in the issue form.');
+            } else {
+              console.log('Parsed file path:', filePath);
+              core.setOutput('filePath', filePath);
+            }
+
+      - name: Read file content and update issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const issue_number = context.issue.number;
+            const filePath = '${{ steps.parse.outputs.filePath }}';
+            
+            try {
+              // 检查文件是否存在
+              if (!fs.existsSync(filePath)) {
+                throw new Error(`File not found: ${filePath}`);
+              }
+              
+              let content = fs.readFileSync(filePath, 'utf8');
+              
+              // 去除 front matter (YAML front matter)
+              if (content.trim().startsWith('---')) {
+                const parts = content.split(/^---$/m);
+                if (parts.length >= 3) {
+                  // 跳过第一个空字符串和 front matter，保留正文
+                  content = parts.slice(2).join('---').trim();
+                }
+              }
+              
+              const header = `### 🧾 Prefilled Content from \`${filePath}\`\n\n`;
+              const newBody = header + '```markdown\n' + content + '\n```\n\n' +
+                              '> Please edit the content above and submit your PR when ready.';
+              
+              await github.rest.issues.update({
+                ...context.repo,
+                issue_number,
+                body: newBody
+              });
+              
+              console.log(`✅ Updated issue #${issue_number} with content from ${filePath}`);
+            } catch (err) {
+              console.error(`❌ Failed to read file: ${filePath}`, err);
+              const failBody = `⚠️ Unable to find or read file: \`${filePath}\`\n\nError: ${err.message}`;
+              await github.rest.issues.update({
+                ...context.repo,
+                issue_number,
+                body: failBody
+              });
+            }
+
