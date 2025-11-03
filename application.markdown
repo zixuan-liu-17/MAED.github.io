@@ -10,18 +10,15 @@ permalink: /applications/
   </div>
 
   <div class="applications-content text-left">
-    <!-- CMS:section id=applications_intro -->
     <p class="lead mb-4">MAED is a fundamental building block for a wide range of applications across government, industry, and academia. Several examples include: </p>
-    <!-- /CMS:section -->
 
-    <!--
      <div class="applications-grid">
       <div class="application-category">
         <h3 class="category-title">Governments</h3>
         <ul class="application-list">
           <li><a href=" https://www-pub.iaea.org/MTCD/publications/PDF/Pub1328_web.pdf ">Cuba: A Country Profile on Sustainable Energy Development</a></li>
           <li><a href="https://www-pub.iaea.org/MTCD/Publications/PDF/P1847_web.pdf">Adaptation Options for Nuclear and Other Energy Infrastructure to Long Term Climate Change in Pakistan</a></li> 
-          <li><a href="https://www.iaea.org/publications/6970/energy-supply-options-for-lithuania">Energy supply options for Lithuania TEST Test MARK!!</a></li>
+          <li><a href="https://www.iaea.org/publications/6970/energy-supply-options-for-lithuania">Energy supply options for Lithuania</a></li>
         </ul>  
       </div>
 
@@ -76,14 +73,11 @@ permalink: /applications/
 
   <div class="slider-dots text-center mt-3" id="sliderDots"></div>
 </section>
--->
 
 <section class="container-lg p-responsive py-4 py-md-6 my-lg-6">
   <div class="recommended-reading">
     <h2 class="alt-h2 text-center mb-4">Recommended Reading</h2>
-    <!-- CMS:section id=applications_reading_intro -->
     <p class="text-center mb-5">For a broader analysis of applications and advancements in OSeMOSYS, see the following peer-reviewed publications:</p>
-    <!-- /CMS:section -->
 
     <div class="publications-list">
       {% for publication in site.data.publications %}
