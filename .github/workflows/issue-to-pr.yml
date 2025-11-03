@@ -59,11 +59,12 @@ jobs:
         if: steps.parse.outputs.should_run == 'true'
         uses: actions/checkout@v4
 
-      - name: Read and extract front matter (safe mode)
+      - name: Extract front matter using external Python script
         if: steps.parse.outputs.should_run == 'true'
         id: prepare
         shell: bash
         run: |
+          set -euo pipefail
           FILE="${{ steps.parse.outputs.filePath }}"
           echo "Processing $FILE"
 
@@ -72,22 +73,15 @@ jobs:
             exit 0
           fi
 
-          if head -n 1 "$FILE" | grep -q "^---$"; then
+          if head -n 1 "$FILE" | grep -q '^---$'; then
             echo "has_frontmatter=true" >> "$GITHUB_OUTPUT"
 
-            # 安全的 Python 单行解析（无 heredoc）
-            python3 -c "
-            import re, sys
-            path = '${{ steps.parse.outputs.filePath }}'
-            text = open(path, encoding='utf-8').read()
-            m = re.match(r'^---\\n(.*?)\\n---\\n', text, re.S)
-            if m: print(m.group(1))
-            " > frontmatter.txt
+            python3 .github/scripts/extract_frontmatter.py "$FILE" > frontmatter.txt
 
             {
-              echo 'frontmatter<<EOF'
+              echo "frontmatter<<EOF"
               cat frontmatter.txt
-              echo 'EOF'
+              echo "EOF"
             } >> "$GITHUB_OUTPUT"
           else
             echo "has_frontmatter=false" >> "$GITHUB_OUTPUT"
@@ -95,7 +89,9 @@ jobs:
 
       - name: Create new file content
         if: steps.parse.outputs.should_run == 'true'
+        shell: bash
         run: |
+          set -euo pipefail
           FILE="${{ steps.parse.outputs.filePath }}"
           echo "Updating file: $FILE"
 
@@ -104,11 +100,11 @@ jobs:
               echo "---"
               echo "${{ steps.prepare.outputs.frontmatter }}"
               echo "---"
-              echo ""
+              echo
               echo "${{ steps.parse.outputs.newContent }}"
             } > "$FILE"
           else
-            echo "${{ steps.parse.outputs.newContent }}" > "$FILE"
+            printf "%s" "${{ steps.parse.outputs.newContent }}" > "$FILE"
           fi
 
           echo "✅ File updated successfully"
