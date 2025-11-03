@@ -103,19 +103,19 @@ jobs:
           # 检查是否有 front matter
           if head -n 1 "$FILE" | grep -q "^---$"; then
             echo "has_frontmatter=true" >> $GITHUB_OUTPUT
-            # 提取 front matter
-            python3 - <<'PY'
-          import sys
-          with open("${{ steps.parse.outputs.filePath }}", 'r', encoding='utf-8') as f:
-              content = f.read()
-          if content.strip().startswith('---'):
-              parts = content.split('\n---\n', 2)
-              if len(parts) >= 3:
-                  front_matter = parts[1]
-                  print("frontmatter<<EOF")
-                  print(front_matter)
-                  print("EOF")
-          PY >> $GITHUB_OUTPUT
+            # 提取 front matter (使用 Python，注意缩进)
+            python3 <<'PY' >> $GITHUB_OUTPUT
+import sys
+with open("${{ steps.parse.outputs.filePath }}", 'r', encoding='utf-8') as f:
+    content = f.read()
+if content.strip().startswith('---'):
+    parts = content.split('\n---\n', 2)
+    if len(parts) >= 3:
+        front_matter = parts[1]
+        print("frontmatter<<EOF")
+        print(front_matter)
+        print("EOF")
+PY
           else
             echo "has_frontmatter=false" >> $GITHUB_OUTPUT
           fi
@@ -125,23 +125,37 @@ jobs:
         run: |
           FILE="${{ steps.parse.outputs.filePath }}"
           
-          # 创建新文件内容
-          if [ "${{ steps.prepare.outputs.has_frontmatter }}" = "true" ]; then
-            # 保留 front matter
-            cat > "$FILE" <<'NEWFILE'
-          ---
-          ${{ steps.prepare.outputs.frontmatter }}
-          ---
-          ${{ steps.parse.outputs.newContent }}
-          NEWFILE
-          else
-            # 没有 front matter，直接写入新内容
-            cat > "$FILE" <<'NEWFILE'
-          ${{ steps.parse.outputs.newContent }}
-          NEWFILE
-          fi
-          
-          echo "File updated: $FILE"
+          # 使用 Python 来创建新文件（避免 heredoc 问题）
+          python3 <<'PYSCRIPT'
+import sys
+import os
+
+file_path = "${{ steps.parse.outputs.filePath }}"
+new_content = """${{ steps.parse.outputs.newContent }}"""
+has_frontmatter = "${{ steps.prepare.outputs.has_frontmatter }}" == "true"
+front_matter = """${{ steps.prepare.outputs.frontmatter }}"""
+
+# 读取原文件以获取 front matter
+if has_frontmatter and os.path.exists(file_path):
+    with open(file_path, 'r', encoding='utf-8') as f:
+        original = f.read()
+    if original.strip().startswith('---'):
+        parts = original.split('\n---\n', 2)
+        if len(parts) >= 3:
+            # 保留 front matter，替换正文
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write('---\n')
+                f.write(parts[1])
+                f.write('\n---\n')
+                f.write(new_content)
+            print(f"✅ Updated {file_path} with front matter preserved")
+            sys.exit(0)
+
+# 没有 front matter 或无法解析，直接写入新内容
+with open(file_path, 'w', encoding='utf-8') as f:
+    f.write(new_content)
+print(f"✅ Updated {file_path}")
+PYSCRIPT
 
       - name: Create Pull Request
         if: steps.parse.outputs.should_run == 'true'
