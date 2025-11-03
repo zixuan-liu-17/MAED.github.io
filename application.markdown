@@ -1,9 +1,3 @@
----
-theme: jekyll-theme-primer
-layout: sub-page
-title: Model for the Analysis of Energy Demand (MAED)
-permalink: /applications/
----
 <section class="bg-gray-light container-lg p-responsive py-4 py-md-6 my-lg-6 fade-in-center">
   <div class="text-center fade-in-center">
     <h2 class="alt-h2 mb-4">MAED Applications</h2>
@@ -20,8 +14,8 @@ permalink: /applications/
         <h3 class="category-title">Governments</h3>
         <ul class="application-list">
           <li><a href=" https://www-pub.iaea.org/MTCD/publications/PDF/Pub1328_web.pdf ">Cuba: A Country Profile on Sustainable Energy Development</a></li>
-          <li><a href="https://www-pub.iaea.org/MTCD/Publications/PDF/P1847_web.pdf">Adaptation Options for Nuclear and Other Energy Infrastructure to Long Term Climate Change in Pakistan</a></li>
-          <li><a href="https://www.iaea.org/publications/6970/energy-supply-options-for-lithuania">Energy supply options for Lithuania </a></li>
+          <li><a href="https://www-pub.iaea.org/MTCD/Publications/PDF/P1847_web.pdf">Adaptation Options for Nuclear and Other Energy Infrastructure to Long Term Climate Change in Pakistan</a></li> 
+          <li><a href="https://www.iaea.org/publications/6970/energy-supply-options-for-lithuania">Energy supply options for Lithuania TEST MARK!!</a></li>
         </ul>  
       </div>
 
