@@ -10,47 +10,75 @@ permissions:
 
 jobs:
   prefill:
-    # 只对使用了 content-edit 标签的 issue 生效
-    if: contains(github.event.issue.labels.*.name, 'content-edit')
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Parse issue body to get target file
-        id: parse
+      - name: Check label and parse file
+        id: check_and_parse
         uses: actions/github-script@v7
         with:
           script: |
+            const labels = context.payload.issue.labels || [];
+            const labelNames = labels.map(l => l.name);
+            console.log('Issue labels:', labelNames);
+            
+            // 检查是否有 content-edit 标签，或者 body 中包含相关字段
+            const hasContentEdit = labelNames.includes('content-edit');
             const body = context.payload.issue.body || '';
-            console.log('Issue body:', body.substring(0, 500));
+            console.log('Full issue body:', body);
             
-            // 从 issue body 中提取 "Which file do you want to edit?" 的回答部分
-            // GitHub forms 格式: ### Label\n\nvalue\n
-            const match = body.match(/###\s*Which file do you want to edit\?\s*\n\s*([^\n]+)/i);
-            let filePath = match ? match[1].trim() : null;
+            const hasFileField = body.includes('Which file do you want to edit');
             
-            // 如果没匹配到，尝试其他模式
-            if (!filePath) {
-              const match2 = body.match(/Which file do you want to edit[?？]\s*([\s\S]*?)(?=\n###|\n\n|$)/i);
-              filePath = match2 ? match2[1].trim().split(/\s+/)[0] : null;
+            if (!hasContentEdit && !hasFileField) {
+              console.log('Skipping: no content-edit label and no file field in body');
+              core.setOutput('should_run', 'false');
+              return;
+            }
+            
+            // 从 issue body 中提取文件路径
+            // GitHub forms 格式可能是: ### Which file do you want to edit?\n\nvalue\n
+            let filePath = null;
+            
+            // 尝试多种匹配模式
+            const patterns = [
+              /###\s*Which file do you want to edit\?\s*\n\s*([^\n]+)/i,
+              /###\s*Which file do you want to edit\?\s*\n\n\s*([^\n]+)/i,
+              /Which file do you want to edit[?？]\s*\n\s*([^\n]+)/i,
+              /Which file do you want to edit[?？]\s*\n\n\s*([^\n]+)/i
+            ];
+            
+            for (const pattern of patterns) {
+              const match = body.match(pattern);
+              if (match && match[1]) {
+                filePath = match[1].trim();
+                break;
+              }
             }
             
             if (!filePath) {
               console.error('No file path found in issue body');
-              core.setFailed('No file path found in the issue form.');
-            } else {
-              console.log('Parsed file path:', filePath);
-              core.setOutput('filePath', filePath);
+              console.log('Body content:', JSON.stringify(body));
+              core.setOutput('should_run', 'false');
+              return;
             }
+            
+            console.log('✅ Parsed file path:', filePath);
+            core.setOutput('should_run', 'true');
+            core.setOutput('filePath', filePath);
+
+      - name: Checkout repository
+        if: steps.check_and_parse.outputs.should_run == 'true'
+        uses: actions/checkout@v4
 
       - name: Read file content and update issue
+        if: steps.check_and_parse.outputs.should_run == 'true'
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
             const issue_number = context.issue.number;
-            const filePath = '${{ steps.parse.outputs.filePath }}';
+            const filePath = '${{ steps.check_and_parse.outputs.filePath }}';
+            
+            console.log(`Attempting to read file: ${filePath}`);
             
             try {
               // 检查文件是否存在
@@ -59,6 +87,7 @@ jobs:
               }
               
               let content = fs.readFileSync(filePath, 'utf8');
+              console.log(`File read successfully, length: ${content.length} characters`);
               
               // 去除 front matter (YAML front matter)
               if (content.trim().startsWith('---')) {
@@ -66,12 +95,16 @@ jobs:
                 if (parts.length >= 3) {
                   // 跳过第一个空字符串和 front matter，保留正文
                   content = parts.slice(2).join('---').trim();
+                  console.log('Removed front matter, remaining length:', content.length);
                 }
               }
               
-              const header = `### 🧾 Prefilled Content from \`${filePath}\`\n\n`;
-              const newBody = header + '```markdown\n' + content + '\n```\n\n' +
-                              '> Please edit the content above and submit your PR when ready.';
+              // 保留原有的 issue body，添加预填充内容
+              const originalBody = context.payload.issue.body || '';
+              const header = `\n\n---\n\n### 🧾 Prefilled Content from \`${filePath}\`\n\n`;
+              const prefilledContent = '```markdown\n' + content + '\n```\n\n';
+              const newBody = originalBody + header + prefilledContent +
+                              '> 💡 Please edit the content above and submit your PR when ready.';
               
               await github.rest.issues.update({
                 ...context.repo,
@@ -82,7 +115,8 @@ jobs:
               console.log(`✅ Updated issue #${issue_number} with content from ${filePath}`);
             } catch (err) {
               console.error(`❌ Failed to read file: ${filePath}`, err);
-              const failBody = `⚠️ Unable to find or read file: \`${filePath}\`\n\nError: ${err.message}`;
+              const originalBody = context.payload.issue.body || '';
+              const failBody = originalBody + `\n\n---\n\n⚠️ Unable to find or read file: \`${filePath}\`\n\nError: ${err.message}`;
               await github.rest.issues.update({
                 ...context.repo,
                 issue_number,
