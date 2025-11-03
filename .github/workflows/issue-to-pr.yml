@@ -97,11 +97,11 @@ jobs:
 
           if [ "${{ steps.prepare.outputs.has_frontmatter }}" = "true" ]; then
             {
-              echo "---"
-              echo "${{ steps.prepare.outputs.frontmatter }}"
-              echo "---"
+              echo '---'
+              printf "%s\n" "${{ steps.prepare.outputs.frontmatter }}"
+              echo '---'
               echo
-              echo "${{ steps.parse.outputs.newContent }}"
+              printf "%s\n" "${{ steps.parse.outputs.newContent }}"
             } > "$FILE"
           else
             printf "%s" "${{ steps.parse.outputs.newContent }}" > "$FILE"
