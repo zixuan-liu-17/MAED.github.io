@@ -91,34 +91,36 @@ jobs:
       - name: Read original file and preserve front matter
         if: steps.parse.outputs.should_run == 'true'
         id: prepare
-        run: |
-          FILE="${{ steps.parse.outputs.filePath }}"
-          
-          if [ ! -f "$FILE" ]; then
-            echo "File not found: $FILE"
-            echo "has_frontmatter=false" >> $GITHUB_OUTPUT
-            exit 0
-          fi
-          
-          # 检查是否有 front matter
-          if head -n 1 "$FILE" | grep -q "^---$"; then
-            echo "has_frontmatter=true" >> $GITHUB_OUTPUT
-            # 提取 front matter
-            python3 - <<'PY'
-          import sys
-          with open("${{ steps.parse.outputs.filePath }}", 'r', encoding='utf-8') as f:
-              content = f.read()
-          if content.strip().startswith('---'):
-              parts = content.split('\n---\n', 2)
-              if len(parts) >= 3:
-                  front_matter = parts[1]
-                  print("frontmatter<<EOF")
-                  print(front_matter)
-                  print("EOF")
-          PY >> $GITHUB_OUTPUT
-          else
-            echo "has_frontmatter=false" >> $GITHUB_OUTPUT
-          fi
+        env:
+          FILE_PATH: ${{ steps.parse.outputs.filePath }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const filePath = process.env.FILE_PATH;
+            
+            if (!fs.existsSync(filePath)) {
+              console.log('File not found:', filePath);
+              core.setOutput('has_frontmatter', 'false');
+              return;
+            }
+            
+            const content = fs.readFileSync(filePath, 'utf8');
+            
+            // 检查是否有 front matter
+            if (content.trim().startsWith('---')) {
+              const parts = content.split(/\n---\n/);
+              if (parts.length >= 3) {
+                const frontmatter = parts[1];
+                core.setOutput('has_frontmatter', 'true');
+                core.setOutput('frontmatter', frontmatter);
+                console.log('✅ Found front matter, length:', frontmatter.length);
+              } else {
+                core.setOutput('has_frontmatter', 'false');
+              }
+            } else {
+              core.setOutput('has_frontmatter', 'false');
+            }
 
       - name: Create new file content
         if: steps.parse.outputs.should_run == 'true'
