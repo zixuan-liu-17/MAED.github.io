@@ -11,7 +11,7 @@ permalink: /about/
     <div class="col-md-12 animate-out mb-2">
       <!-- CMS:section id=about_intro -->
       <p class="alt-lead text-gray text-justify-between col-md-15 mx-auto" style="text-align: justify; font-size: 0.875em;">
-        <strong>The Model for the Analysis of Energy Demand (MAED)</strong> was developed by the International Atomic Energy Agency (IAEA) and evaluates future energy demands (final and useful) based on medium to long term scenarios of socioeconomic, technological, and demographic development. Energy demand is disaggregated into a large number of end-use categories corresponding to different goods and services. MAED can be configured to reflect the economic structure of the sub-national or national case study in question and is designed to simulate demand in the medium and long term for developing economies.  
+        <strong>The Model for the Analysis of Energy Demand (MAED)</strong> was developed by the International Atomic Energy Agency (IAEA) and evaluates future energy demands (final and useful) based on medium to long term scenarios of socioeconomic, technological, and demographic development. Energy demand is disaggregated into a large number of end-use categories corresponding to different goods and services. MAED can be configured to reflect the economic structure of the sub-national or national case study in question and is designed to simulate demand in the medium and long term for developing economies. 
       </p>
       <!-- /CMS:section -->
     </div>
@@ -19,7 +19,7 @@ permalink: /about/
     <div class="col-md-12 animate-out mb-2">
       <!-- CMS:section id=about_what_it_does -->
       <p class="alt-lead text-gray text-justify-between col-md-15 mx-auto" style="text-align: justify; font-size: 0.875em;">
-     MAED employs a scenario-based bottom-up approach to simulate useful and final energy demand over the medium and long-term. The outputs of MAED can be used as inputs to a range of supply optimization models including <a href="https://doi.org/10.1016/j.enconman.2024.118857" target="_blank">OSeMOSYS</a>, <a href="https://doi.org/10.1016/j.esr.2016.04.001" target="_blank">MESSAGE</a>, <a href="https://doi.org/10.1016/j.renene.2023.119467" target="_blank">TIMES</a>, and <a href="https://doi.org/10.13052/spee1048-5236.4231" target="_blank">LEAP</a> to form a full demand and supply analysis.  
+     MAED employs a scenario-based bottom-up approach to simulate useful and final energy demand over the medium and long term. The outputs of MAED can be used as inputs to a range of supply optimization models including <a href="https://doi.org/10.1016/j.enconman.2024.118857" target="_blank">OSeMOSYS</a>, <a href="https://doi.org/10.1016/j.esr.2016.04.001" target="_blank">MESSAGE</a>, <a href="https://doi.org/10.1016/j.renene.2023.119467" target="_blank">TIMES</a>, and <a href="https://doi.org/10.13052/spee1048-5236.4231" target="_blank">LEAP</a> to form a full demand and supply analysis.  
       </p>
       <!-- /CMS:section -->
     </div>
@@ -109,4 +109,3 @@ permalink: /about/
   }
 }
 </style>
-
