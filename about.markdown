@@ -11,7 +11,7 @@ permalink: /about/
     <div class="col-md-12 animate-out mb-2">
       <!-- CMS:section id=about_intro -->
       <p class="alt-lead text-gray text-justify-between col-md-15 mx-auto" style="text-align: justify; font-size: 0.875em;">
-        <strong>The Model for the Analysis of Energy Demand (MAED)</strong> was developed by the International Atomic Energy Agency (IAEA) and evaluates future energy demands (final and useful) based on medium to long term scenarios of socioeconomic, technological, and demographic development. Energy demand is disaggregated into a large number of end-use categories corresponding to different goods and services. MAED can be configured to reflect the economic structure of the sub-national or national case study in question and is designed to simulate demand in the medium and long term for developing economies. 
+        <strong>We just wanna add this sentence. The Model for the Analysis of Energy Demand (MAED)</strong> was developed by the International Atomic Energy Agency (IAEA) and evaluates future energy demands (final and useful) based on medium to long term scenarios of socioeconomic, technological, and demographic development. Energy demand is disaggregated into a large number of end-use categories corresponding to different goods and services. MAED can be configured to reflect the economic structure of the sub-national or national case study in question and is designed to simulate demand in the medium and long term for developing economies. 
       </p>
       <!-- /CMS:section -->
     </div>
